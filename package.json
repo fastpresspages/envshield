@@ -17,7 +17,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "node --test test/*.test.js",
+    "test": "node --test",
     "mcp": "node bin/envshield-mcp.js"
   },
   "engines": {
