@@ -1,0 +1,16 @@
+# EnvShield — Zero-Dependency Environment Security & Secret Leak Auditor
+
+EnvShield audits repository .gitignore protection, detects leaked credentials with Shannon entropy and regex signatures, validates schema parity between .env and .env.example, and automatically sanitizes .env templates.
+
+- Website: https://fastpresspages.github.io/envshield/
+- Repository: https://github.com/fastpresspages/envshield
+- License: Apache-2.0 (FastPress Labs)
+- Zero runtime dependencies: Node >= 18.17 standard library only.
+- Interfaces: CLI (`envshield`), stdio MCP Server (`envshield-mcp`), and composite GitHub Action.
+
+## Key Capabilities
+- `envshield audit [dir]`: Comprehensive audit of .gitignore protection, tracked env files, template leaks, and variable parity.
+- `envshield scan <file>`: Scans text or files for AWS, GitHub, Stripe, OpenAI, Anthropic, Slack, DB URIs, and high-entropy secrets.
+- `envshield check <env> --example <ex>`: Validates variable parity and types (`port`, `boolean`, `url`, `number`, `enum`).
+- `envshield generate <env>`: Generates a sanitized `.env.example` template with safe placeholders.
+- Stdio MCP server (`envshield-mcp`): Exposes `audit_env`, `scan_secrets`, `validate_env`, `generate_example` tools.

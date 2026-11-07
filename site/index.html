@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EnvShield — Zero-Dependency Env & Secret Leak Auditor</title>
+  <meta name="description" content="Free zero-dependency CLI, MCP server, and GitHub Action for auditing environment variables, detecting secret leaks, and validating schema parity.">
+  <link rel="canonical" href="https://fastpresspages.github.io/envshield/">
+  <meta name="theme-color" content="#08080A">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FastPress Labs">
+  <meta property="og:title" content="EnvShield — Zero-Dependency Environment Security & Secret Leak Auditor">
+  <meta property="og:description" content="Free CLI, MCP server, and GitHub Action for auditing environment variables, detecting secret leaks, and validating schema parity.">
+  <meta property="og:url" content="https://fastpresspages.github.io/envshield/">
+  <meta property="og:image" content="https://fastpresspages.github.io/envshield/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="EnvShield — Environment security auditor and secret leak detector by FastPress Labs">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EnvShield — Zero-Dependency Environment Security & Secret Leak Auditor">
+  <meta name="twitter:description" content="Free CLI, MCP server, and GitHub Action for auditing environment variables, detecting secret leaks, and validating schema parity.">
+  <meta name="twitter:image" content="https://fastpresspages.github.io/envshield/assets/og.png">
+  <meta name="twitter:image:alt" content="EnvShield — Environment security auditor and secret leak detector by FastPress Labs">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "EnvShield",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Cross-platform",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "Zero-dependency environment security auditor, secret leak scanner, and schema validator for CI and AI agents.",
+        "author": { "@type": "Organization", "name": "FastPress Labs", "url": "https://github.com/fastpresspages" }
+      },
+      {
+        "@type": "WebSite",
+        "url": "https://fastpresspages.github.io/envshield/",
+        "name": "EnvShield",
+        "publisher": { "@type": "Organization", "name": "FastPress Labs", "url": "https://github.com/fastpresspages" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does EnvShield send my environment variables over the network?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Never. EnvShield has zero runtime dependencies and makes zero network calls. All secret scanning, Shannon entropy checks, and schema validations happen 100% locally on your machine."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does EnvShield detect secret leaks?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EnvShield uses precision regex signatures for known token formats (AWS, GitHub, Stripe, OpenAI, Slack, etc.) combined with Shannon entropy analysis to detect high-randomness credential tokens."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use EnvShield with Claude Code, Cursor, or OpenCode?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! EnvShield provides a built-in stdio MCP server (envshield-mcp) that allows any MCP-compatible AI agent to audit environments and validate .env files natively."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.classList.add("js");</script>
+  <style>html{background:#08080A}</style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="top-in wrap">
+      <a class="brand" href="#top" aria-label="EnvShield home">
+        <span class="brand-mark" aria-hidden="true">ES</span>
+        <span class="brand-name">EnvShield</span>
+      </a>
+      <nav class="menu" id="menu" aria-label="Main">
+        <a href="#simulator">Live Simulator</a>
+        <a href="#features">Features</a>
+        <a href="#mcp">MCP &amp; Action</a>
+        <a href="#faq">FAQ</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="top-cta">
+        <a class="btn btn-small btn-primary" href="https://github.com/fastpresspages/envshield">GitHub</a>
+        <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" id="top">
+      <div class="hero-copy">
+        <p class="kicker">FastPress Labs · Apache-2.0 · Zero runtime dependencies</p>
+        <h1>Stop credential leaks before they hit GitHub.</h1>
+        <p class="lede">Zero-dependency environment security auditor, secret leak detector, and schema validator. Protects your repository from leaked API keys, unignored .env files, and configuration drift across local, staging, and CI.</p>
+        
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#simulator">Try Live Simulator</a>
+          <button class="btn btn-ghost copy-btn" data-copy="npx -p github:fastpresspages/envshield envshield audit">Copy npx command</button>
+        </div>
+
+        <ul class="chips" aria-label="Tool attributes">
+          <li>Zero runtime dependencies</li>
+          <li>100% offline &amp; private</li>
+          <li>Rated A+ 100/100 on LaunchGrade</li>
+          <li>CLI + MCP server + GitHub Action</li>
+          <li>Shannon entropy + signature detection</li>
+        </ul>
+      </div>
+
+      <aside class="hero-card" aria-label="Terminal output preview">
+        <div class="card-cap">terminal — envshield audit</div>
+        <pre><code><span class="c-dim">$ npx envshield audit . --fail-under 80</span>
+
+======================================================
+  EnvShield Security Audit · Grade: <span class="c-green">A+ (100/100)</span>
+======================================================
+Checks: <span class="c-green">4 pass</span>  |  <span class="c-amber">0 warn</span>  |  <span class="c-red">0 fail</span>
+
+<span class="c-green">[PASS]</span> .gitignore ignores .env files
+<span class="c-green">[PASS]</span> No unignored sensitive .env files committed
+<span class="c-green">[PASS]</span> .env.example contains no leaked secrets
+<span class="c-green">[PASS]</span> Local .env satisfies all keys in .env.example</code></pre>
+      </aside>
+    </section>
+
+    <!-- LIVE IN-BROWSER SIMULATOR -->
+    <section class="wrap sec" id="simulator">
+      <h2>Interactive Live Simulator</h2>
+      <p class="sub">Test secret leak detection and automatic .env.example generation right in your browser. All processing is 100% client-side.</p>
+
+      <div class="sim-grid">
+        <div class="sim-panel">
+          <div class="sim-header">
+            <span>Input .env Content</span>
+            <button class="sim-btn" id="load-sample-btn" type="button">Load Sample with Leaks</button>
+          </div>
+          <textarea id="sim-input" rows="12" spellcheck="false" aria-label="Environment input" placeholder="PORT=3000
+DATABASE_URL=postgres://user:password@localhost:5432/db
+SESSION_SECRET=c9f8e7d6c5b4a39281726354453627182930415263748596a7b8c9d0e1f2"></textarea>
+          <div class="sim-actions">
+            <button class="btn btn-primary btn-small" id="scan-btn" type="button">Scan for Leaks</button>
+            <button class="btn btn-ghost btn-small" id="gen-btn" type="button">Sanitize to .env.example</button>
+          </div>
+        </div>
+
+        <div class="sim-panel">
+          <div class="sim-header">
+            <span>Scan Results &amp; Sanitized Output</span>
+            <span class="badge" id="sim-badge">Ready</span>
+          </div>
+          <div class="sim-output" id="sim-output">
+            <p class="c-dim">Click "Scan for Leaks" or "Sanitize" to see EnvShield analysis.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="wrap sec" id="features">
+      <h2>Why Developers and Agents Choose EnvShield</h2>
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="feat-icon">🔒</div>
+          <h3>Secret &amp; Leak Detection</h3>
+          <p>Combines Shannon entropy estimation with signature matching for AWS, GitHub PATs, OpenAI, Anthropic, Stripe, Slack, private keys, and database connection strings.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feat-icon">⚡</div>
+          <h3>Zero Runtime Dependencies</h3>
+          <p>Runs on pure Node.js (>=18.17). Zero external npm packages, zero telemetry, zero background network calls. Never risks leaking your variables.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feat-icon">📋</div>
+          <h3>Parity &amp; Type Checking</h3>
+          <p>Validates that every variable in your template is configured in local development, with support for types like <code>port</code>, <code>boolean</code>, <code>url</code>, and <code>enum</code>.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feat-icon">🤖</div>
+          <h3>AI Agent Ready (MCP)</h3>
+          <p>Includes an stdio Model Context Protocol (MCP) server so AI coding assistants can audit workspace security before writing code or making commits.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feat-icon">🛡️</div>
+          <h3>CI Guardrail Action</h3>
+          <p>Drop the composite GitHub Action into any repository to block pull requests containing leaked credentials or missing .gitignore protection.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feat-icon">🧹</div>
+          <h3>Automated Sanitizer</h3>
+          <p>One command generates a pristine, production-ready <code>.env.example</code> with placeholder values while preserving safe configuration defaults.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MCP & GITHUB ACTION -->
+    <section class="wrap sec" id="mcp">
+      <h2>MCP Server &amp; GitHub Action Integration</h2>
+      <div class="grid-2">
+        <div class="code-box">
+          <div class="card-cap">claude_desktop_config.json / opencode.json</div>
+          <pre><code>{
+  "mcpServers": {
+    "envshield": {
+      "command": "npx",
+      "args": ["-p", "github:fastpresspages/envshield", "envshield-mcp"]
+    }
+  }
+}</code></pre>
+          <p class="c-dim box-note">Exposes <code>audit_env</code>, <code>scan_secrets</code>, <code>validate_env</code>, and <code>generate_example</code> to your agents.</p>
+        </div>
+
+        <div class="code-box">
+          <div class="card-cap">.github/workflows/security.yml</div>
+          <pre><code>- name: Audit Environment Security
+  uses: fastpresspages/envshield@v0.1.0
+  with:
+    path: .
+    fail-under: 80
+    example: .env.example</code></pre>
+          <p class="c-dim box-note">Fails the CI build automatically if secrets leak or .gitignore protection is missing.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="wrap sec faq" id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>Does EnvShield send my environment variables anywhere?</summary>
+        <p>No. EnvShield is strictly zero-telemetry and has zero runtime dependencies. Everything runs 100% locally on your machine or inside your GitHub Actions runner.</p>
+      </details>
+      <details>
+        <summary>How is Shannon entropy used in secret scanning?</summary>
+        <p>Real passwords and API keys typically have high information randomness (entropy >= 4.2 bits/character). EnvShield calculates character frequency distributions to catch unformatted high-entropy credentials.</p>
+      </details>
+      <details>
+        <summary>How can I generate a clean .env.example?</summary>
+        <p>Run <code>npx -p github:fastpresspages/envshield envshield generate .env -o .env.example</code>. EnvShield will mask sensitive tokens while keeping comments and safe configuration defaults.</p>
+      </details>
+      <details>
+        <summary>Is EnvShield free and open source?</summary>
+        <p>Yes. 100% free under the Apache-2.0 license. Maintained by FastPress Labs.</p>
+      </details>
+    </section>
+
+    <!-- CONTACT / FEEDBACK -->
+    <section class="lime-wrap" id="contact">
+      <div class="wrap contact-in">
+        <div class="contact-copy">
+          <h2>Have questions or rule suggestions?</h2>
+          <p>EnvShield is built in the open. If you have feature requests, custom regex pattern suggestions, or security questions, get in touch.</p>
+          <p class="alt-line">Email: <a href="mailto:meetcode99@gmail.com">meetcode99@gmail.com</a> · <a href="https://github.com/fastpresspages/envshield/discussions">Discussions</a></p>
+        </div>
+
+        <form class="lead-form" action="https://formsubmit.co/meetcode99@gmail.com" method="POST" data-page="envshield">
+          <div class="field">
+            <label for="f-email">Your email</label>
+            <input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+          </div>
+          <div class="field">
+            <label for="f-msg">Your question or request</label>
+            <textarea id="f-msg" name="message" rows="4" required minlength="10" placeholder="Which secret format or feature would you like to see?"></textarea>
+          </div>
+          <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="request_type" value="EnvShield inquiry">
+          <input type="hidden" name="page" value="envshield">
+          <input type="hidden" name="_subject" value="[EnvShield] Inquiry or feedback">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <button class="btn btn-dark" type="submit">Send Message</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="wrap about" id="about">
+      <h2>About FastPress Labs</h2>
+      <p>EnvShield is built and maintained by <a href="https://github.com/fastpresspages">FastPress Labs</a>. We engineer high-integrity open-source tools with zero runtime dependencies for developers and autonomous AI agents. Check out our launch ecosystem: <a href="https://fastpresspages.github.io/launchgrade/">LaunchGrade</a>, <a href="https://github.com/fastpresspages/repograde">RepoGrade</a>, and <a href="https://fastpresspages.github.io/contextpack/">ContextPack</a>.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <p class="foot-brand"><span class="brand-mark" aria-hidden="true">ES</span> EnvShield · FastPress Labs</p>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="https://github.com/fastpresspages/envshield">GitHub</a>
+        <a href="https://fastpresspages.github.io/launchgrade/">LaunchGrade</a>
+        <a href="https://fastpresspages.github.io/repograde/">RepoGrade</a>
+        <a href="https://fastpresspages.github.io/contextpack/">ContextPack</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="samples/envshield/report.html">LaunchGrade Audit</a>
+      </nav>
+      <p class="foot-fine">© 2026 FastPress Labs. Apache-2.0 License. Zero tracking, zero telemetry.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

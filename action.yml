@@ -1,0 +1,75 @@
+name: EnvShield
+description: Audit environment security, scan for leaked credentials, and validate .env parity in CI.
+author: FastPress Labs
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  path:
+    description: Root directory or file to audit
+    required: false
+    default: .
+  fail-under:
+    description: Minimum audit score required to pass (0-100). Step fails below this.
+    required: false
+    default: "80"
+  example:
+    description: Path to expected .env.example template for parity check
+    required: false
+    default: .env.example
+  format:
+    description: Report format (terminal, markdown, or json)
+    required: false
+    default: terminal
+  out:
+    description: Path to write report file (e.g. envshield-report.md)
+    required: false
+    default: ""
+
+outputs:
+  score:
+    description: Environment security score (0-100)
+    value: ${{ steps.audit.outputs.score }}
+  grade:
+    description: Letter grade (A+ through F)
+    value: ${{ steps.audit.outputs.grade }}
+  status:
+    description: Audit status (pass or fail)
+    value: ${{ steps.audit.outputs.status }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - id: audit
+      name: Run EnvShield
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_FAIL_UNDER: ${{ inputs.fail-under }}
+        INPUT_EXAMPLE: ${{ inputs.example }}
+        INPUT_FORMAT: ${{ inputs.format }}
+        INPUT_OUT: ${{ inputs.out }}
+        ENVSHIELD_ACTION_PATH: ${{ github.action_path }}
+      run: |
+        set -euo pipefail
+        args=("audit" "$INPUT_PATH" "--fail-under" "$INPUT_FAIL_UNDER" "--format" "$INPUT_FORMAT")
+        if [ -n "$INPUT_OUT" ]; then args+=("--out" "$INPUT_OUT"); fi
+        if [ -n "$INPUT_EXAMPLE" ]; then args+=("--example" "$INPUT_EXAMPLE"); fi
+
+        status=0
+        node "$ENVSHIELD_ACTION_PATH/bin/envshield.js" "${args[@]}" || status=$?
+
+        # Capture output metrics
+        node -e "
+          const fs = require('fs');
+          const { auditRepository } = require('$ENVSHIELD_ACTION_PATH/src/auditor.js');
+          const res = auditRepository(process.env.INPUT_PATH);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, \`score=\${res.score}\ngrade=\${res.grade}\nstatus=\${res.summary.fail > 0 ? 'fail' : 'pass'}\n\`);
+        "
+        exit $status

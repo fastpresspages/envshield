@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#08080A" stroke="#10B981" stroke-width="3"/>
+  <path d="M32 14 L46 20 L46 32 C46 42 32 50 32 50 C32 50 18 42 18 32 L18 20 Z" fill="#022C22" stroke="#34D399" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="32" y="36" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" font-weight="800" fill="#34D399">ES</text>
+</svg>

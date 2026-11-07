@@ -1,0 +1,48 @@
+{
+  "name": "envshield",
+  "version": "0.1.0",
+  "description": "Zero-dependency environment variable security auditor, secret leak scanner, and schema validator for CI and AI agents.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "envshield": "bin/envshield.js",
+    "envshield-mcp": "bin/envshield-mcp.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "mcp",
+    "action.yml",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "mcp": "node bin/envshield-mcp.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "keywords": [
+    "env",
+    "dotenv",
+    "security-audit",
+    "secret-scanner",
+    "leak-detector",
+    "mcp-server",
+    "github-action",
+    "schema-validator",
+    "zero-dependency",
+    "fastpress-labs"
+  ],
+  "author": "FastPress Labs",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fastpresspages/envshield.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fastpresspages/envshield/issues"
+  },
+  "homepage": "https://fastpresspages.github.io/envshield/"
+}

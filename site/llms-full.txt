@@ -1,0 +1,20 @@
+# EnvShield Full Reference & Context
+
+EnvShield is a 100% free, zero-dependency environment security and credential leak auditor engineered by FastPress Labs.
+
+## Modules
+- `src/parser.js`: Parses `.env` format supporting double/single quotes, multiline values, inline comments, empty lines, and the `export` keyword.
+- `src/scanner.js`: Secret leak detection combining Shannon entropy calculations with regex signatures for AWS keys, GitHub PATs, OpenAI API keys, Anthropic keys, Stripe live keys, Slack tokens/webhooks, database URIs with passwords, SendGrid, HuggingFace, and private keys.
+- `src/schema.js`: Parity checker validating that all variables in `.env.example` exist in local `.env`, and checking types (`port`, `boolean`, `url`, `number`, `email`, `json`, `enum`).
+- `src/generator.js`: Generates clean, sanitized `.env.example` templates replacing sensitive credentials with `your_<key>_here` while preserving structure, comments, and safe non-secret configuration defaults.
+- `src/auditor.js`: Performs end-to-end repository audits checking `.gitignore` coverage, tracked env files, template leaks, and variable parity.
+
+## MCP Server
+Stdio JSON-RPC 2.0 protocol implementation exposing:
+1. `audit_env`: Audits workspace directory.
+2. `scan_secrets`: Scans code or files for credential leaks.
+3. `validate_env`: Compares `.env` against `.env.example`.
+4. `generate_example`: Generates sanitized `.env.example`.
+
+## Zero-Telemetry Guarantee
+No analytics, no cookies, no tracking pixels, no telemetry, no network calls. 100% private and offline.
